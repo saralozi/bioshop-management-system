@@ -1,0 +1,74 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Brand {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductType {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id   Int     @id @default(autoincrement())
+  name String
+  size String?
+
+  costPrice    Decimal? @db.Decimal(10, 2)
+  sellingPrice Decimal? @db.Decimal(10, 2)
+
+  isActive Boolean @default(true)
+
+  brandId       Int?
+  categoryId    Int
+  productTypeId Int
+
+  brand       Brand?      @relation(fields: [brandId], references: [id])
+  category    Category    @relation(fields: [categoryId], references: [id])
+  productType ProductType @relation(fields: [productTypeId], references: [id])
+
+  inventoryBatches InventoryBatch[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, size, brandId])
+}
+
+model InventoryBatch {
+  id         Int       @id @default(autoincrement())
+  productId  Int
+  quantity   Int
+  expiryDate DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

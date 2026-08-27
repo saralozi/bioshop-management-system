@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: bioshop-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: bioshop_user
+      POSTGRES_PASSWORD: bioshop_password
+      POSTGRES_DB: bioshop_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - bioshop_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  bioshop_postgres_data:
