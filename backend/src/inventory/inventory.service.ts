@@ -95,9 +95,71 @@ export class InventoryService {
   // Retrieve all product batches in the inventory
   async findAll() {
     return this.prisma.inventoryBatch.findMany({
-      include: {product: true},
-      orderBy: {expiryDate: 'asc'},
+      include: { product: true },
+      orderBy: { expiryDate: 'asc' },
     })
+  }
+
+  // Find inventory batches whose expiry date is within a certain future period
+  async getExpiryAlerts() {
+
+    // Get today's date
+    const today = new Date();
+
+    // Create another date object
+    // Get current day of the month and add X days
+    // JS handles the month change auto
+    // setDate() changes the date
+    const date30 = new Date();
+    date30.setDate(date30.getDate() + 30);
+
+    const date90 = new Date();
+    date90.setDate(date90.getDate() + 90);
+
+    const date180 = new Date();
+    date180.setDate(date180.getDate() + 180);
+
+    // One Prisma query -> get every batch within 180 days
+    // Split batches into urgent, high, warning
+    const batches = await this.prisma.inventoryBatch.findMany({
+      where: {
+        expiryDate: {
+          gte: today,
+          lte: date180,
+        },
+      },
+      include: {
+        product: true,
+      },
+      orderBy: {
+        expiryDate: 'asc',
+      },
+    });
+
+    const urgent = [];
+    const high = [];
+    const warning = [];
+
+    for (const batch of batches) {
+      if (!batch.expiryDate) {
+        continue;
+      }
+
+      if (batch.expiryDate <= date30) {
+        urgent.push(batch);
+      } else if (batch.expiryDate <= date90) {
+        high.push(batch);
+      } else {
+        warning.push(batch);
+      }
+    }
+
+
+    return {
+      urgent,
+      high,
+      warning,
+    };
   }
 }
 

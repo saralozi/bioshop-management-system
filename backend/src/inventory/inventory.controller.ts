@@ -30,6 +30,12 @@ export class InventoryController {
     );
   }
 
+  // GET /inventory/expiring-soon
+  @Get('expiry-alerts')
+  getExpiryAlerts() {
+    return this.inventoryService.getExpiryAlerts();
+  }
+
   // This controller method connect a URL like GET /inventory/product/5/stock 
   // to the service method
 
@@ -56,6 +62,8 @@ export class InventoryController {
   ) {
     return this.inventoryService.findByProductId(Number(productId))
   }
+
+
 }
 
 // Complete basic read/create inventory flow
