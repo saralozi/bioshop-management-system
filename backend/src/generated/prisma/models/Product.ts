@@ -30,6 +30,7 @@ export type ProductAvgAggregateOutputType = {
   id: number | null
   costPrice: runtime.Decimal | null
   sellingPrice: runtime.Decimal | null
+  lowStockThreshold: number | null
   brandId: number | null
   categoryId: number | null
   productTypeId: number | null
@@ -39,6 +40,7 @@ export type ProductSumAggregateOutputType = {
   id: number | null
   costPrice: runtime.Decimal | null
   sellingPrice: runtime.Decimal | null
+  lowStockThreshold: number | null
   brandId: number | null
   categoryId: number | null
   productTypeId: number | null
@@ -51,6 +53,7 @@ export type ProductMinAggregateOutputType = {
   costPrice: runtime.Decimal | null
   sellingPrice: runtime.Decimal | null
   isActive: boolean | null
+  lowStockThreshold: number | null
   brandId: number | null
   categoryId: number | null
   productTypeId: number | null
@@ -65,6 +68,7 @@ export type ProductMaxAggregateOutputType = {
   costPrice: runtime.Decimal | null
   sellingPrice: runtime.Decimal | null
   isActive: boolean | null
+  lowStockThreshold: number | null
   brandId: number | null
   categoryId: number | null
   productTypeId: number | null
@@ -79,6 +83,7 @@ export type ProductCountAggregateOutputType = {
   costPrice: number
   sellingPrice: number
   isActive: number
+  lowStockThreshold: number
   brandId: number
   categoryId: number
   productTypeId: number
@@ -92,6 +97,7 @@ export type ProductAvgAggregateInputType = {
   id?: true
   costPrice?: true
   sellingPrice?: true
+  lowStockThreshold?: true
   brandId?: true
   categoryId?: true
   productTypeId?: true
@@ -101,6 +107,7 @@ export type ProductSumAggregateInputType = {
   id?: true
   costPrice?: true
   sellingPrice?: true
+  lowStockThreshold?: true
   brandId?: true
   categoryId?: true
   productTypeId?: true
@@ -113,6 +120,7 @@ export type ProductMinAggregateInputType = {
   costPrice?: true
   sellingPrice?: true
   isActive?: true
+  lowStockThreshold?: true
   brandId?: true
   categoryId?: true
   productTypeId?: true
@@ -127,6 +135,7 @@ export type ProductMaxAggregateInputType = {
   costPrice?: true
   sellingPrice?: true
   isActive?: true
+  lowStockThreshold?: true
   brandId?: true
   categoryId?: true
   productTypeId?: true
@@ -141,6 +150,7 @@ export type ProductCountAggregateInputType = {
   costPrice?: true
   sellingPrice?: true
   isActive?: true
+  lowStockThreshold?: true
   brandId?: true
   categoryId?: true
   productTypeId?: true
@@ -242,6 +252,7 @@ export type ProductGroupByOutputType = {
   costPrice: runtime.Decimal | null
   sellingPrice: runtime.Decimal | null
   isActive: boolean
+  lowStockThreshold: number
   brandId: number | null
   categoryId: number
   productTypeId: number
@@ -279,6 +290,7 @@ export type ProductWhereInput = {
   costPrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFilter<"Product"> | boolean
+  lowStockThreshold?: Prisma.IntFilter<"Product"> | number
   brandId?: Prisma.IntNullableFilter<"Product"> | number | null
   categoryId?: Prisma.IntFilter<"Product"> | number
   productTypeId?: Prisma.IntFilter<"Product"> | number
@@ -297,6 +309,7 @@ export type ProductOrderByWithRelationInput = {
   costPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   sellingPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -319,6 +332,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   costPrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFilter<"Product"> | boolean
+  lowStockThreshold?: Prisma.IntFilter<"Product"> | number
   brandId?: Prisma.IntNullableFilter<"Product"> | number | null
   categoryId?: Prisma.IntFilter<"Product"> | number
   productTypeId?: Prisma.IntFilter<"Product"> | number
@@ -337,6 +351,7 @@ export type ProductOrderByWithAggregationInput = {
   costPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   sellingPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -359,6 +374,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   costPrice?: Prisma.DecimalNullableWithAggregatesFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.DecimalNullableWithAggregatesFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
+  lowStockThreshold?: Prisma.IntWithAggregatesFilter<"Product"> | number
   brandId?: Prisma.IntNullableWithAggregatesFilter<"Product"> | number | null
   categoryId?: Prisma.IntWithAggregatesFilter<"Product"> | number
   productTypeId?: Prisma.IntWithAggregatesFilter<"Product"> | number
@@ -372,6 +388,7 @@ export type ProductCreateInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   brand?: Prisma.BrandCreateNestedOneWithoutProductsInput
@@ -387,6 +404,7 @@ export type ProductUncheckedCreateInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   categoryId: number
   productTypeId: number
@@ -401,6 +419,7 @@ export type ProductUpdateInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   brand?: Prisma.BrandUpdateOneWithoutProductsNestedInput
@@ -416,6 +435,7 @@ export type ProductUncheckedUpdateInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -431,6 +451,7 @@ export type ProductCreateManyInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   categoryId: number
   productTypeId: number
@@ -444,6 +465,7 @@ export type ProductUpdateManyMutationInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,6 +477,7 @@ export type ProductUncheckedUpdateManyInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -485,6 +508,7 @@ export type ProductCountOrderByAggregateInput = {
   costPrice?: Prisma.SortOrder
   sellingPrice?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -496,6 +520,7 @@ export type ProductAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   costPrice?: Prisma.SortOrder
   sellingPrice?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -508,6 +533,7 @@ export type ProductMaxOrderByAggregateInput = {
   costPrice?: Prisma.SortOrder
   sellingPrice?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -522,6 +548,7 @@ export type ProductMinOrderByAggregateInput = {
   costPrice?: Prisma.SortOrder
   sellingPrice?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -533,6 +560,7 @@ export type ProductSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   costPrice?: Prisma.SortOrder
   sellingPrice?: Prisma.SortOrder
+  lowStockThreshold?: Prisma.SortOrder
   brandId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   productTypeId?: Prisma.SortOrder
@@ -713,6 +741,7 @@ export type ProductCreateWithoutBrandInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutProductsInput
@@ -727,6 +756,7 @@ export type ProductUncheckedCreateWithoutBrandInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   categoryId: number
   productTypeId: number
   createdAt?: Date | string
@@ -770,6 +800,7 @@ export type ProductScalarWhereInput = {
   costPrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.DecimalNullableFilter<"Product"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFilter<"Product"> | boolean
+  lowStockThreshold?: Prisma.IntFilter<"Product"> | number
   brandId?: Prisma.IntNullableFilter<"Product"> | number | null
   categoryId?: Prisma.IntFilter<"Product"> | number
   productTypeId?: Prisma.IntFilter<"Product"> | number
@@ -783,6 +814,7 @@ export type ProductCreateWithoutCategoryInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   brand?: Prisma.BrandCreateNestedOneWithoutProductsInput
@@ -797,6 +829,7 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   productTypeId: number
   createdAt?: Date | string
@@ -836,6 +869,7 @@ export type ProductCreateWithoutProductTypeInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   brand?: Prisma.BrandCreateNestedOneWithoutProductsInput
@@ -850,6 +884,7 @@ export type ProductUncheckedCreateWithoutProductTypeInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   categoryId: number
   createdAt?: Date | string
@@ -889,6 +924,7 @@ export type ProductCreateWithoutInventoryBatchesInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   brand?: Prisma.BrandCreateNestedOneWithoutProductsInput
@@ -903,6 +939,7 @@ export type ProductUncheckedCreateWithoutInventoryBatchesInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   categoryId: number
   productTypeId: number
@@ -932,6 +969,7 @@ export type ProductUpdateWithoutInventoryBatchesInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   brand?: Prisma.BrandUpdateOneWithoutProductsNestedInput
@@ -946,6 +984,7 @@ export type ProductUncheckedUpdateWithoutInventoryBatchesInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -960,6 +999,7 @@ export type ProductCreateManyBrandInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   categoryId: number
   productTypeId: number
   createdAt?: Date | string
@@ -972,6 +1012,7 @@ export type ProductUpdateWithoutBrandInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutProductsNestedInput
@@ -986,6 +1027,7 @@ export type ProductUncheckedUpdateWithoutBrandInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1000,6 +1042,7 @@ export type ProductUncheckedUpdateManyWithoutBrandInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1013,6 +1056,7 @@ export type ProductCreateManyCategoryInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   productTypeId: number
   createdAt?: Date | string
@@ -1025,6 +1069,7 @@ export type ProductUpdateWithoutCategoryInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   brand?: Prisma.BrandUpdateOneWithoutProductsNestedInput
@@ -1039,6 +1084,7 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1053,6 +1099,7 @@ export type ProductUncheckedUpdateManyWithoutCategoryInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   productTypeId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1066,6 +1113,7 @@ export type ProductCreateManyProductTypeInput = {
   costPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: boolean
+  lowStockThreshold?: number
   brandId?: number | null
   categoryId: number
   createdAt?: Date | string
@@ -1078,6 +1126,7 @@ export type ProductUpdateWithoutProductTypeInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   brand?: Prisma.BrandUpdateOneWithoutProductsNestedInput
@@ -1092,6 +1141,7 @@ export type ProductUncheckedUpdateWithoutProductTypeInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1106,6 +1156,7 @@ export type ProductUncheckedUpdateManyWithoutProductTypeInput = {
   costPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   sellingPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lowStockThreshold?: Prisma.IntFieldUpdateOperationsInput | number
   brandId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   categoryId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1150,6 +1201,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   costPrice?: boolean
   sellingPrice?: boolean
   isActive?: boolean
+  lowStockThreshold?: boolean
   brandId?: boolean
   categoryId?: boolean
   productTypeId?: boolean
@@ -1169,6 +1221,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   costPrice?: boolean
   sellingPrice?: boolean
   isActive?: boolean
+  lowStockThreshold?: boolean
   brandId?: boolean
   categoryId?: boolean
   productTypeId?: boolean
@@ -1186,6 +1239,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   costPrice?: boolean
   sellingPrice?: boolean
   isActive?: boolean
+  lowStockThreshold?: boolean
   brandId?: boolean
   categoryId?: boolean
   productTypeId?: boolean
@@ -1203,6 +1257,7 @@ export type ProductSelectScalar = {
   costPrice?: boolean
   sellingPrice?: boolean
   isActive?: boolean
+  lowStockThreshold?: boolean
   brandId?: boolean
   categoryId?: boolean
   productTypeId?: boolean
@@ -1210,7 +1265,7 @@ export type ProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "size" | "costPrice" | "sellingPrice" | "isActive" | "brandId" | "categoryId" | "productTypeId" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "size" | "costPrice" | "sellingPrice" | "isActive" | "lowStockThreshold" | "brandId" | "categoryId" | "productTypeId" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   brand?: boolean | Prisma.Product$brandArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1244,6 +1299,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     costPrice: runtime.Decimal | null
     sellingPrice: runtime.Decimal | null
     isActive: boolean
+    lowStockThreshold: number
     brandId: number | null
     categoryId: number
     productTypeId: number
@@ -1682,6 +1738,7 @@ export interface ProductFieldRefs {
   readonly costPrice: Prisma.FieldRef<"Product", 'Decimal'>
   readonly sellingPrice: Prisma.FieldRef<"Product", 'Decimal'>
   readonly isActive: Prisma.FieldRef<"Product", 'Boolean'>
+  readonly lowStockThreshold: Prisma.FieldRef<"Product", 'Int'>
   readonly brandId: Prisma.FieldRef<"Product", 'Int'>
   readonly categoryId: Prisma.FieldRef<"Product", 'Int'>
   readonly productTypeId: Prisma.FieldRef<"Product", 'Int'>

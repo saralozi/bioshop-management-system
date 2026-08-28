@@ -48,6 +48,16 @@ export class InventoryController {
     return this.inventoryService.getProductStock(Number(productId))
   } // convert to number, calls service, get the result
 
+  @Get('out-of-stock')
+  findOutOfStock() {
+    return this.inventoryService.findOutOfStock();
+  }
+
+  @Get('low-stock')
+  findLowStock() {
+    return this.inventoryService.findLowStock();
+  }
+
   // This creates GET /inventory
   @Get()
   findAll() {
@@ -62,6 +72,8 @@ export class InventoryController {
   ) {
     return this.inventoryService.findByProductId(Number(productId))
   }
+
+
 
 
 }

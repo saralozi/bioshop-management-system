@@ -45,6 +45,8 @@ model Product {
 
   isActive Boolean @default(true)
 
+  lowStockThreshold Int              @default(5)
+
   brandId       Int?
   categoryId    Int
   productTypeId Int

@@ -1,8 +1,9 @@
 // Receive the HTPP request and call the service to handle the request
 
-import { Controller, Get, Body, Post } from '@nestjs/common';
+import { Controller, Get, Body, Post, Param, Patch } from '@nestjs/common';
 import { ProductsService } from './products.service.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
+import { UpdateLowStockThresholdDto } from './dto/update-low-stock-threshold.dto.js';
 
 // This controller handles routes starting with /products
 @Controller('products')
@@ -25,5 +26,17 @@ export class ProductsController {
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
+  }
+
+  // Calls service, sends the productId and the threshold (validated)
+  @Patch(':productId/low-stock-threshold')
+  updateLowStockThreshold(
+    @Param('productId') productId: string,
+    @Body() dto: UpdateLowStockThresholdDto,
+  ) {
+    return this.productsService.updateLowStockThreshold(
+      Number(productId),
+      dto.lowStockThreshold,
+    );
   }
 }

@@ -12,6 +12,18 @@ export class InventoryService {
   // Inject PrismaService
   constructor(private readonly prisma: PrismaService) { }
 
+  // Method to calculate total stock so we don't need to repeat the same operations in every function
+  // private -> so that it only can be used inside this service file
+  // batches -> variable we pass into the function with quantity field
+  private calculateTotalStock(batches: { quantity: number }[]) {
+    let totalStock = 0;
+
+    for (const batch of batches) {
+      totalStock = totalStock + batch.quantity;
+    }
+    return totalStock;
+  }
+
   // Create a new inventory batch in the database
 
   // Receive data from controller
@@ -77,11 +89,7 @@ export class InventoryService {
       where: { productId },
     })
 
-    let totalStock = 0;
-
-    for (const batch of batches) {
-      totalStock = totalStock + batch.quantity;
-    }
+    const totalStock = this.calculateTotalStock(batches);
 
     return {
       productId, totalStock, batches
@@ -153,13 +161,64 @@ export class InventoryService {
         warning.push(batch);
       }
     }
-
-
     return {
       urgent,
       high,
       warning,
     };
+  }
+
+  async findOutOfStock() {
+    const products = await this.prisma.product.findMany({
+      include: {
+        inventoryBatches: true,
+      },
+    });
+
+    const outOfStockProducts = [];
+
+    for (const product of products) {
+      const totalStock = this.calculateTotalStock(product.inventoryBatches);
+
+      if (totalStock === 0) {
+        outOfStockProducts.push({
+          id: product.id,
+          name: product.name,
+          size: product.size,
+          totalStock,
+        });
+      }
+    }
+
+    return outOfStockProducts;
+  }
+
+  async findLowStock() {
+    // Get all products & include all inventory batches
+    const products = await this.prisma.product.findMany({
+      include: {
+        inventoryBatches: true,
+      },
+    });
+
+    const lowStockProducts = [];
+
+    // Loop through every product & add all batch quantities
+    for (const product of products) {
+      const totalStock = this.calculateTotalStock(product.inventoryBatches);
+
+      // Add to low stock products if total stock is < 5
+      if (totalStock > 0 && totalStock <= product.lowStockThreshold) {
+        lowStockProducts.push({
+          id: product.id,
+          name: product.name,
+          size: product.size,
+          totalStock,
+        });
+      }
+    }
+
+    return lowStockProducts;
   }
 }
 

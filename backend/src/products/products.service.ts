@@ -29,9 +29,9 @@ export class ProductsService {
     // incoming product data has to be shaped like CreateProductDto, so we use that as the type of the parameter
     // Tell Prisma to create a new row in Product table
     // Pass the incoming data to Prisma so that it can be saved in the database
-    
+
     async create(createProductDto: CreateProductDto) {
-        
+
         // destructuring (take values out and store in shorter variables)
         const {
             brandId,
@@ -85,6 +85,35 @@ export class ProductsService {
 
         return this.prisma.product.create({
             data: createProductDto,
+        });
+    }
+
+    // Change Product X's low stock threshold
+    async updateLowStockThreshold(
+        productId: number,
+        lowStockThreshold: number,
+    ) {
+        // Check that the product exists
+        const product = await this.prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+
+        if (!product) {
+            throw new BadRequestException(
+                'Product does not exist.',
+            );
+        }
+
+        // Update one Produt row
+        return this.prisma.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                lowStockThreshold,
+            },
         });
     }
 
