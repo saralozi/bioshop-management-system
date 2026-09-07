@@ -233,6 +233,7 @@ export type InventoryBatchWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"InventoryBatch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InventoryBatch"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  stockMovements?: Prisma.StockMovementListRelationFilter
 }
 
 export type InventoryBatchOrderByWithRelationInput = {
@@ -243,6 +244,7 @@ export type InventoryBatchOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
+  stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput
 }
 
 export type InventoryBatchWhereUniqueInput = Prisma.AtLeast<{
@@ -256,6 +258,7 @@ export type InventoryBatchWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"InventoryBatch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InventoryBatch"> | Date | string
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  stockMovements?: Prisma.StockMovementListRelationFilter
 }, "id">
 
 export type InventoryBatchOrderByWithAggregationInput = {
@@ -290,6 +293,7 @@ export type InventoryBatchCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   product: Prisma.ProductCreateNestedOneWithoutInventoryBatchesInput
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutInventoryBatchInput
 }
 
 export type InventoryBatchUncheckedCreateInput = {
@@ -299,6 +303,7 @@ export type InventoryBatchUncheckedCreateInput = {
   expiryDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutInventoryBatchInput
 }
 
 export type InventoryBatchUpdateInput = {
@@ -307,6 +312,7 @@ export type InventoryBatchUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   product?: Prisma.ProductUpdateOneRequiredWithoutInventoryBatchesNestedInput
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutInventoryBatchNestedInput
 }
 
 export type InventoryBatchUncheckedUpdateInput = {
@@ -316,6 +322,7 @@ export type InventoryBatchUncheckedUpdateInput = {
   expiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutInventoryBatchNestedInput
 }
 
 export type InventoryBatchCreateManyInput = {
@@ -392,6 +399,11 @@ export type InventoryBatchSumOrderByAggregateInput = {
   quantity?: Prisma.SortOrder
 }
 
+export type InventoryBatchScalarRelationFilter = {
+  is?: Prisma.InventoryBatchWhereInput
+  isNot?: Prisma.InventoryBatchWhereInput
+}
+
 export type InventoryBatchCreateNestedManyWithoutProductInput = {
   create?: Prisma.XOR<Prisma.InventoryBatchCreateWithoutProductInput, Prisma.InventoryBatchUncheckedCreateWithoutProductInput> | Prisma.InventoryBatchCreateWithoutProductInput[] | Prisma.InventoryBatchUncheckedCreateWithoutProductInput[]
   connectOrCreate?: Prisma.InventoryBatchCreateOrConnectWithoutProductInput | Prisma.InventoryBatchCreateOrConnectWithoutProductInput[]
@@ -438,11 +450,26 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type InventoryBatchCreateNestedOneWithoutStockMovementsInput = {
+  create?: Prisma.XOR<Prisma.InventoryBatchCreateWithoutStockMovementsInput, Prisma.InventoryBatchUncheckedCreateWithoutStockMovementsInput>
+  connectOrCreate?: Prisma.InventoryBatchCreateOrConnectWithoutStockMovementsInput
+  connect?: Prisma.InventoryBatchWhereUniqueInput
+}
+
+export type InventoryBatchUpdateOneRequiredWithoutStockMovementsNestedInput = {
+  create?: Prisma.XOR<Prisma.InventoryBatchCreateWithoutStockMovementsInput, Prisma.InventoryBatchUncheckedCreateWithoutStockMovementsInput>
+  connectOrCreate?: Prisma.InventoryBatchCreateOrConnectWithoutStockMovementsInput
+  upsert?: Prisma.InventoryBatchUpsertWithoutStockMovementsInput
+  connect?: Prisma.InventoryBatchWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InventoryBatchUpdateToOneWithWhereWithoutStockMovementsInput, Prisma.InventoryBatchUpdateWithoutStockMovementsInput>, Prisma.InventoryBatchUncheckedUpdateWithoutStockMovementsInput>
+}
+
 export type InventoryBatchCreateWithoutProductInput = {
   quantity: number
   expiryDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  stockMovements?: Prisma.StockMovementCreateNestedManyWithoutInventoryBatchInput
 }
 
 export type InventoryBatchUncheckedCreateWithoutProductInput = {
@@ -451,6 +478,7 @@ export type InventoryBatchUncheckedCreateWithoutProductInput = {
   expiryDate?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutInventoryBatchInput
 }
 
 export type InventoryBatchCreateOrConnectWithoutProductInput = {
@@ -491,6 +519,56 @@ export type InventoryBatchScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"InventoryBatch"> | Date | string
 }
 
+export type InventoryBatchCreateWithoutStockMovementsInput = {
+  quantity: number
+  expiryDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  product: Prisma.ProductCreateNestedOneWithoutInventoryBatchesInput
+}
+
+export type InventoryBatchUncheckedCreateWithoutStockMovementsInput = {
+  id?: number
+  productId: number
+  quantity: number
+  expiryDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InventoryBatchCreateOrConnectWithoutStockMovementsInput = {
+  where: Prisma.InventoryBatchWhereUniqueInput
+  create: Prisma.XOR<Prisma.InventoryBatchCreateWithoutStockMovementsInput, Prisma.InventoryBatchUncheckedCreateWithoutStockMovementsInput>
+}
+
+export type InventoryBatchUpsertWithoutStockMovementsInput = {
+  update: Prisma.XOR<Prisma.InventoryBatchUpdateWithoutStockMovementsInput, Prisma.InventoryBatchUncheckedUpdateWithoutStockMovementsInput>
+  create: Prisma.XOR<Prisma.InventoryBatchCreateWithoutStockMovementsInput, Prisma.InventoryBatchUncheckedCreateWithoutStockMovementsInput>
+  where?: Prisma.InventoryBatchWhereInput
+}
+
+export type InventoryBatchUpdateToOneWithWhereWithoutStockMovementsInput = {
+  where?: Prisma.InventoryBatchWhereInput
+  data: Prisma.XOR<Prisma.InventoryBatchUpdateWithoutStockMovementsInput, Prisma.InventoryBatchUncheckedUpdateWithoutStockMovementsInput>
+}
+
+export type InventoryBatchUpdateWithoutStockMovementsInput = {
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  expiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  product?: Prisma.ProductUpdateOneRequiredWithoutInventoryBatchesNestedInput
+}
+
+export type InventoryBatchUncheckedUpdateWithoutStockMovementsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  productId?: Prisma.IntFieldUpdateOperationsInput | number
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  expiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type InventoryBatchCreateManyProductInput = {
   id?: number
   quantity: number
@@ -504,6 +582,7 @@ export type InventoryBatchUpdateWithoutProductInput = {
   expiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockMovements?: Prisma.StockMovementUpdateManyWithoutInventoryBatchNestedInput
 }
 
 export type InventoryBatchUncheckedUpdateWithoutProductInput = {
@@ -512,6 +591,7 @@ export type InventoryBatchUncheckedUpdateWithoutProductInput = {
   expiryDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutInventoryBatchNestedInput
 }
 
 export type InventoryBatchUncheckedUpdateManyWithoutProductInput = {
@@ -523,6 +603,35 @@ export type InventoryBatchUncheckedUpdateManyWithoutProductInput = {
 }
 
 
+/**
+ * Count Type InventoryBatchCountOutputType
+ */
+
+export type InventoryBatchCountOutputType = {
+  stockMovements: number
+}
+
+export type InventoryBatchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  stockMovements?: boolean | InventoryBatchCountOutputTypeCountStockMovementsArgs
+}
+
+/**
+ * InventoryBatchCountOutputType without action
+ */
+export type InventoryBatchCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryBatchCountOutputType
+   */
+  select?: Prisma.InventoryBatchCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * InventoryBatchCountOutputType without action
+ */
+export type InventoryBatchCountOutputTypeCountStockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StockMovementWhereInput
+}
+
 
 export type InventoryBatchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -532,6 +641,8 @@ export type InventoryBatchSelect<ExtArgs extends runtime.Types.Extensions.Intern
   createdAt?: boolean
   updatedAt?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  stockMovements?: boolean | Prisma.InventoryBatch$stockMovementsArgs<ExtArgs>
+  _count?: boolean | Prisma.InventoryBatchCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryBatch"]>
 
 export type InventoryBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -566,6 +677,8 @@ export type InventoryBatchSelectScalar = {
 export type InventoryBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "quantity" | "expiryDate" | "createdAt" | "updatedAt", ExtArgs["result"]["inventoryBatch"]>
 export type InventoryBatchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  stockMovements?: boolean | Prisma.InventoryBatch$stockMovementsArgs<ExtArgs>
+  _count?: boolean | Prisma.InventoryBatchCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InventoryBatchIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
@@ -578,6 +691,7 @@ export type $InventoryBatchPayload<ExtArgs extends runtime.Types.Extensions.Inte
   name: "InventoryBatch"
   objects: {
     product: Prisma.$ProductPayload<ExtArgs>
+    stockMovements: Prisma.$StockMovementPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -981,6 +1095,7 @@ readonly fields: InventoryBatchFieldRefs;
 export interface Prisma__InventoryBatchClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  stockMovements<T extends Prisma.InventoryBatch$stockMovementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryBatch$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1414,6 +1529,30 @@ export type InventoryBatchDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many InventoryBatches to delete.
    */
   limit?: number
+}
+
+/**
+ * InventoryBatch.stockMovements
+ */
+export type InventoryBatch$stockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StockMovement
+   */
+  select?: Prisma.StockMovementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StockMovement
+   */
+  omit?: Prisma.StockMovementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StockMovementInclude<ExtArgs> | null
+  where?: Prisma.StockMovementWhereInput
+  orderBy?: Prisma.StockMovementOrderByWithRelationInput | Prisma.StockMovementOrderByWithRelationInput[]
+  cursor?: Prisma.StockMovementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StockMovementScalarFieldEnum | Prisma.StockMovementScalarFieldEnum[]
 }
 
 /**

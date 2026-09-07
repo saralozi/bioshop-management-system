@@ -8,6 +8,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum StockMovementType {
+  STOCK_IN
+  SALE
+  EXPIRED
+}
+
 model Brand {
   id       Int       @id @default(autoincrement())
   name     String    @unique
@@ -45,7 +51,7 @@ model Product {
 
   isActive Boolean @default(true)
 
-  lowStockThreshold Int              @default(5)
+  lowStockThreshold Int @default(5)
 
   brandId       Int?
   categoryId    Int
@@ -71,6 +77,18 @@ model InventoryBatch {
 
   product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
+  stockMovements StockMovement[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model StockMovement {
+  id               Int               @id @default(autoincrement())
+  inventoryBatchId Int
+  quantity         Int
+  type             StockMovementType
+  createdAt        DateTime          @default(now())
+
+  inventoryBatch InventoryBatch @relation(fields: [inventoryBatchId], references: [id], onDelete: Cascade)
 }

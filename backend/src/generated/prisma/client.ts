@@ -64,3 +64,8 @@ export type Product = Prisma.ProductModel
  * 
  */
 export type InventoryBatch = Prisma.InventoryBatchModel
+/**
+ * Model StockMovement
+ * 
+ */
+export type StockMovement = Prisma.StockMovementModel

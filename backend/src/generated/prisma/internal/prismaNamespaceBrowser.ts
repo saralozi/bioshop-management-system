@@ -55,7 +55,8 @@ export const ModelName = {
   Category: 'Category',
   ProductType: 'ProductType',
   Product: 'Product',
-  InventoryBatch: 'InventoryBatch'
+  InventoryBatch: 'InventoryBatch',
+  StockMovement: 'StockMovement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -132,6 +133,17 @@ export const InventoryBatchScalarFieldEnum = {
 } as const
 
 export type InventoryBatchScalarFieldEnum = (typeof InventoryBatchScalarFieldEnum)[keyof typeof InventoryBatchScalarFieldEnum]
+
+
+export const StockMovementScalarFieldEnum = {
+  id: 'id',
+  inventoryBatchId: 'inventoryBatchId',
+  quantity: 'quantity',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type StockMovementScalarFieldEnum = (typeof StockMovementScalarFieldEnum)[keyof typeof StockMovementScalarFieldEnum]
 
 
 export const SortOrder = {

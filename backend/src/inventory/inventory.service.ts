@@ -55,6 +55,9 @@ export class InventoryService {
         expiryDate: expiryDate
           ? new Date(expiryDate)
           : null,
+        stockMovements: {
+          create: { quantity, type: 'STOCK_IN' }
+        }
       },
     });
   }
@@ -220,7 +223,26 @@ export class InventoryService {
 
     return lowStockProducts;
   }
+
+  // Retrieve all stock movements, together with the batch and product they belong to
+  // newest first
+  async findStockMovements() {
+    return this.prisma.stockMovement.findMany({
+      include: {
+        inventoryBatch: {
+          include: {
+            product: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 }
+
+
 
 // findAll -> all batches in inventory
 // findByProductId(productId) -> all batches for one product

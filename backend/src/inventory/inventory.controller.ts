@@ -73,8 +73,11 @@ export class InventoryController {
     return this.inventoryService.findByProductId(Number(productId))
   }
 
-
-
+  // Wne client sends GET request to /inventory/movements, run this method
+  @Get('movements')
+  findStockMovements() {
+    return this.inventoryService.findStockMovements();
+  }
 
 }
 
