@@ -5,6 +5,12 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // cors -> browsers security rule
+  // Nest backend: I accept browser requests from localhost:5173."
+  app.enableCors({
+    origin: 'http://localhost:5173',
+  });
+
   // Apply validation to all incoming requests in backend
   // Use validation decorators from our DTOs
   app.useGlobalPipes(
@@ -16,7 +22,8 @@ async function bootstrap() {
   );
 
   await app.listen(process.env.PORT ?? 3000);
+
 }
 bootstrap();
-
 // Enable NestJS validation globally with ValidationPipe
+
