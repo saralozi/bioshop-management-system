@@ -47,3 +47,13 @@ export type InventoryBatch = Prisma.InventoryBatchModel
  * 
  */
 export type StockMovement = Prisma.StockMovementModel
+/**
+ * Model Sale
+ * 
+ */
+export type Sale = Prisma.SaleModel
+/**
+ * Model SaleItem
+ * 
+ */
+export type SaleItem = Prisma.SaleItemModel

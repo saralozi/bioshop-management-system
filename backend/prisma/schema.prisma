@@ -62,6 +62,7 @@ model Product {
   productType ProductType @relation(fields: [productTypeId], references: [id])
 
   inventoryBatches InventoryBatch[]
+  saleItems        SaleItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -91,4 +92,24 @@ model StockMovement {
   createdAt        DateTime          @default(now())
 
   inventoryBatch InventoryBatch @relation(fields: [inventoryBatchId], references: [id], onDelete: Cascade)
+}
+
+model Sale {
+  id          Int     @id @default(autoincrement())
+  totalAmount Decimal @db.Decimal(10, 2)
+
+  items SaleItem[]
+
+  createdAt DateTime @default(now())
+}
+
+model SaleItem {
+  id        Int     @id @default(autoincrement())
+  saleId    Int
+  productId Int
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  sale    Sale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
 }

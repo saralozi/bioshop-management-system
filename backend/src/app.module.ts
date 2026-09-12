@@ -8,6 +8,8 @@ import { AppService } from './app.service.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { ProductsModule } from './products/products.module.js';
 import { InventoryModule } from './inventory/inventory.module.js';
+import { SalesModule } from './sales/sales.module.js';
+import { DashboardModule } from './dashboard/dashboard.module.js';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { InventoryModule } from './inventory/inventory.module.js';
     PrismaModule,
     ProductsModule,
     InventoryModule,
+    SalesModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
