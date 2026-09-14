@@ -10,6 +10,9 @@ import { ProductsModule } from './products/products.module.js';
 import { InventoryModule } from './inventory/inventory.module.js';
 import { SalesModule } from './sales/sales.module.js';
 import { DashboardModule } from './dashboard/dashboard.module.js';
+import { BrandsModule } from './brands/brands.module.js';
+import { CategoriesModule } from './categories/categories.module.js';
+import { ProductTypesModule } from './product-types/product-types.module.js';
 
 @Module({
   imports: [
@@ -21,6 +24,9 @@ import { DashboardModule } from './dashboard/dashboard.module.js';
     InventoryModule,
     SalesModule,
     DashboardModule,
+    BrandsModule,
+    CategoriesModule,
+    ProductTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

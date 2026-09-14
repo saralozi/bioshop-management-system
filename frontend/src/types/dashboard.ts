@@ -2,6 +2,6 @@ export interface DashboardData {
     totalProducts: number;
     lowStockProducts: number;
     outOfStockProducts: number;
-    expiringSoonProducts: number;
+    expiringSoon: number;
     todaySales: number | string;
 }

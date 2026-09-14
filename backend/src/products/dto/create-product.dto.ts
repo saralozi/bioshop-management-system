@@ -10,6 +10,7 @@ import {
     IsString,
     MaxLength,
     MinLength,
+    Min
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -48,4 +49,9 @@ export class CreateProductDto {
     @IsInt()
     @IsPositive()
     productTypeId!: number;
+
+    @IsOptional()
+    @IsInt()
+    @Min(0)
+    lowStockThreshold?: number;
 }
