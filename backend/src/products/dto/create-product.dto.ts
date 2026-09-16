@@ -10,9 +10,9 @@ import {
     IsString,
     MaxLength,
     MinLength,
-    Min
+    Min,
+    IsBoolean
 } from 'class-validator';
-
 export class CreateProductDto {
 
     @IsString()
@@ -54,4 +54,8 @@ export class CreateProductDto {
     @IsInt()
     @Min(0)
     lowStockThreshold?: number;
+
+    @IsBoolean()
+    isActive?: boolean;
+
 }

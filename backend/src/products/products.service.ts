@@ -1,6 +1,7 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
+import { UpdateProductDto } from './dto/update-product.dto.js';
 
 @Injectable()
 export class ProductsService {
@@ -90,13 +91,13 @@ export class ProductsService {
 
     // Change Product X's low stock threshold
     async updateLowStockThreshold(
-        productId: number,
+        id: number,
         lowStockThreshold: number,
     ) {
         // Check that the product exists
         const product = await this.prisma.product.findUnique({
             where: {
-                id: productId,
+                id
             },
         });
 
@@ -109,7 +110,7 @@ export class ProductsService {
         // Update one Produt row
         return this.prisma.product.update({
             where: {
-                id: productId,
+                id
             },
             data: {
                 lowStockThreshold,
@@ -117,5 +118,66 @@ export class ProductsService {
         });
     }
 
+    async findById(id: number) {
+        const product = await this.prisma.product.findUnique({
+            where: { id },
+            include: {
+                brand: true,
+                category: true,
+                productType: true,
+            },
+        });
+
+        if (!product) {
+            throw new NotFoundException('Product does not exist.');
+        }
+
+        return product;
+    }
+
+
+    async update(id: number, updateProductDto: UpdateProductDto) {
+        const product = await this.prisma.product.findUnique({
+            where: { id },
+        });
+
+        if (!product) {
+            throw new NotFoundException(
+                `Product with id ${id} does not exist.`,
+            );
+        }
+
+        return this.prisma.product.update({
+            where: { id },
+            data: updateProductDto,
+            include: {
+                brand: true,
+                category: true,
+                productType: true,
+            },
+        });
+    }
+
+    async updateStatus(
+        id: number,
+        isActive: boolean,
+    ) {
+        const product = await this.prisma.product.findUnique({
+            where: { id },
+        });
+
+        if (!product) {
+            throw new NotFoundException(
+                `Product with id ${id} does not exist.`,
+            );
+        }
+
+        return this.prisma.product.update({
+            where: { id },
+            data: {
+                isActive,
+            },
+        });
+    }
 
 }

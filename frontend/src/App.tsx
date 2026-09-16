@@ -5,6 +5,7 @@ import Products from './components/Products/Products.js'
 import Inventory from './components/Inventory/Inventory.js'
 import Sales from './components/Sales/Sales.js'
 import AddProduct from './components/Products/AddProduct.js'
+import EditProduct from './components/Products/EditProduct.js'
 
 import {
   BrowserRouter,
@@ -37,6 +38,11 @@ function App() {
           <Route
             path="/products/add"
             element={<AddProduct />}
+          />
+
+          <Route
+            path="/products/:productId/edit"
+            element={<EditProduct />}
           />
 
            <Route

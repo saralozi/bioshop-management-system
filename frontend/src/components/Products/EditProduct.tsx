@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../services/api';
+import axios from 'axios';
 
-// TS interface that describes the shape of objects coming from the API
 interface LookupItem {
   id: number;
   name: string;
 }
 
-function AddProduct() {
+function EditProduct() {
   const navigate = useNavigate();
+  const { productId } = useParams();
 
   const [brands, setBrands] = useState<LookupItem[]>([]);
   const [categories, setCategories] = useState<LookupItem[]>([]);
@@ -24,30 +25,49 @@ function AddProduct() {
   const [productTypeId, setProductTypeId] = useState('');
   const [lowStockThreshold, setLowStockThreshold] = useState('5');
 
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    async function fetchFormOptions() {
+    async function fetchData() {
       try {
-        const [brandsResponse, categoriesResponse, productTypesResponse] =
-          await Promise.all([
-            api.get('/brands'),
-            api.get('/categories'),
-            api.get('/product-types'),
-          ]);
+        const [
+          productResponse,
+          brandsResponse,
+          categoriesResponse,
+          productTypesResponse,
+        ] = await Promise.all([
+          api.get(`/products/${productId}`),
+          api.get('/brands'),
+          api.get('/categories'),
+          api.get('/product-types'),
+        ]);
+
+        const product = productResponse.data;
+
+        setName(product.name);
+        setSize(product.size ?? '');
+        setCostPrice(product.costPrice ?? '');
+        setSellingPrice(product.sellingPrice ?? '');
+        setBrandId(product.brandId ? String(product.brandId) : '');
+        setCategoryId(String(product.categoryId));
+        setProductTypeId(String(product.productTypeId));
+        setLowStockThreshold(String(product.lowStockThreshold));
 
         setBrands(brandsResponse.data);
         setCategories(categoriesResponse.data);
         setProductTypes(productTypesResponse.data);
       } catch (error) {
         console.error(error);
-        setError('Failed to load product options');
+        setError('Failed to load product');
+      } finally {
+        setLoading(false);
       }
     }
 
-    fetchFormOptions();
-  }, []);
+    fetchData();
+  }, [productId]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,23 +87,32 @@ function AddProduct() {
         lowStockThreshold: Number(lowStockThreshold),
       };
 
-      await api.post('/products', productData);
+      await api.patch(`/products/${productId}`, productData);
 
       navigate('/products');
     } catch (error) {
       console.error(error);
-      setError('Failed to create product');
+
+      if (axios.isAxiosError(error)) {
+        console.log('Backend response:', error.response?.data);
+      }
+
+      setError('Failed to update product');
     } finally {
       setSaving(false);
     }
   }
 
+  if (loading) {
+    return <p>Loading product...</p>;
+  }
+
   return (
     <div className="container-fluid">
       <div className="mb-4">
-        <h1>Add Product</h1>
+        <h1>Edit Product</h1>
         <p className="text-muted">
-          Add a new product to your store catalog.
+          Update product information.
         </p>
       </div>
 
@@ -96,9 +125,7 @@ function AddProduct() {
       <form onSubmit={handleSubmit}>
         <div className="row g-3">
           <div className="col-md-6">
-            <label className="form-label">
-              Product Name
-            </label>
+            <label className="form-label">Product Name</label>
 
             <input
               type="text"
@@ -110,9 +137,7 @@ function AddProduct() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">
-              Brand
-            </label>
+            <label className="form-label">Brand</label>
 
             <select
               className="form-select"
@@ -122,10 +147,7 @@ function AddProduct() {
               <option value="">Select brand</option>
 
               {brands.map((brand) => (
-                <option
-                  key={brand.id}
-                  value={brand.id}
-                >
+                <option key={brand.id} value={brand.id}>
                   {brand.name}
                 </option>
               ))}
@@ -133,9 +155,7 @@ function AddProduct() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">
-              Category
-            </label>
+            <label className="form-label">Category</label>
 
             <select
               className="form-select"
@@ -148,10 +168,7 @@ function AddProduct() {
               <option value="">Select category</option>
 
               {categories.map((category) => (
-                <option
-                  key={category.id}
-                  value={category.id}
-                >
+                <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
               ))}
@@ -159,9 +176,7 @@ function AddProduct() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">
-              Product Type
-            </label>
+            <label className="form-label">Product Type</label>
 
             <select
               className="form-select"
@@ -171,9 +186,7 @@ function AddProduct() {
               }
               required
             >
-              <option value="">
-                Select product type
-              </option>
+              <option value="">Select product type</option>
 
               {productTypes.map((productType) => (
                 <option
@@ -187,14 +200,11 @@ function AddProduct() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">
-              Size
-            </label>
+            <label className="form-label">Size</label>
 
             <input
               type="text"
               className="form-control"
-              placeholder="e.g. 50 ml"
               value={size}
               onChange={(event) => setSize(event.target.value)}
             />
@@ -217,9 +227,7 @@ function AddProduct() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">
-              Cost Price
-            </label>
+            <label className="form-label">Cost Price</label>
 
             <input
               type="number"
@@ -234,9 +242,7 @@ function AddProduct() {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">
-              Selling Price
-            </label>
+            <label className="form-label">Selling Price</label>
 
             <input
               type="number"
@@ -257,7 +263,7 @@ function AddProduct() {
             className="btn btn-success"
             disabled={saving}
           >
-            {saving ? 'Saving...' : 'Add Product'}
+            {saving ? 'Saving...' : 'Save Changes'}
           </button>
 
           <button
@@ -273,4 +279,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default EditProduct;

@@ -4,6 +4,7 @@ export interface Product {
   size: string | null;
   costPrice: string | null;
   sellingPrice: string | null;
+  isActive: boolean;
 
   brand: {
     id: number;
