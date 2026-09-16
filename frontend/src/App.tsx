@@ -6,6 +6,7 @@ import Inventory from './components/Inventory/Inventory.js'
 import Sales from './components/Sales/Sales.js'
 import AddProduct from './components/Products/AddProduct.js'
 import EditProduct from './components/Products/EditProduct.js'
+import InventoryDetails from './components/Inventory/InventoryDetails.js'
 
 import {
   BrowserRouter,
@@ -45,9 +46,14 @@ function App() {
             element={<EditProduct />}
           />
 
-           <Route
+          <Route
             path="/inventory"
             element={<Inventory />}
+          />
+
+          <Route
+            path="/inventory/product/:productId"
+            element={<InventoryDetails />}
           />
 
           <Route

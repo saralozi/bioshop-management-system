@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   Get,
+  Query,
   Param
 } from '@nestjs/common';
 
@@ -28,6 +29,11 @@ export class InventoryController {
     return this.inventoryService.create(
       createInventoryBatchDto,
     );
+  }
+
+  @Get('summary')
+  getInventorySummary() {
+    return this.inventoryService.getInventorySummary();
   }
 
   // GET /inventory/expiring-soon
@@ -75,8 +81,12 @@ export class InventoryController {
 
   // Wne client sends GET request to /inventory/movements, run this method
   @Get('movements')
-  findStockMovements() {
-    return this.inventoryService.findStockMovements();
+  findStockMovements(
+    @Query('productId') productId?: string, // read the productId value from the query string in URL
+  ) {
+    return this.inventoryService.findStockMovements(
+      productId ? Number(productId) : undefined,
+    );
   }
 
 }

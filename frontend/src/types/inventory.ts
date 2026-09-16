@@ -1,16 +1,17 @@
-export interface InventoryBatch {
-  id: number;
-  quantity: number;
-  expiryDate: string | null;
+export interface InventorySummary {
+  productId: number;
+  name: string;
+  brand: string | null;
+  size: string | null;
+  totalStock: number;
+  stockStatus:
+    | 'IN_STOCK'
+    | 'LOW_STOCK'
+    | 'OUT_OF_STOCK';
 
-  product: {
-    id: number;
-    name: string;
-    size: string | null;
-
-    brand: {
-      id: number;
-      name: string;
-    } | null;
-  };
+  expiryStatus:
+    | 'NO_ALERT'
+    | 'WARNING'
+    | 'HIGH'
+    | 'URGENT';
 }

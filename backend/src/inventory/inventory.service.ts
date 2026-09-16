@@ -47,6 +47,8 @@ export class InventoryService {
       );
     }
 
+    
+
     // Create a new inventory batch in the database with the provided data
     return this.prisma.inventoryBatch.create({
       data: {
@@ -226,8 +228,16 @@ export class InventoryService {
 
   // Retrieve all stock movements, together with the batch and product they belong to
   // newest first
-  async findStockMovements() {
+  async findStockMovements(productId?: number) {
     return this.prisma.stockMovement.findMany({
+      where: productId
+        ? {
+          inventoryBatch: {
+            productId
+          }
+        }
+        : undefined,
+
       include: {
         inventoryBatch: {
           include: {
@@ -240,7 +250,103 @@ export class InventoryService {
       },
     });
   }
+
+  // Create a summary of invetory per product
+  async getInventorySummary() {
+
+    // fetch all products with their brands and inventory batches
+  const products = await this.prisma.product.findMany({
+    include: {
+      brand: true,
+      inventoryBatches: true,
+    },
+  });
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const result = [];
+
+  // loop over every product to calculate inentory summary
+  for (const product of products) {
+    let totalStock = 0;
+
+    // loop over every batch of the product to calculate total stock
+    for (const batch of product.inventoryBatches) {
+      totalStock += batch.quantity;
+    }
+
+    let stockStatus = 'IN_STOCK';
+
+    if (totalStock === 0) {
+      stockStatus = 'OUT_OF_STOCK';
+    } else if (totalStock <= product.lowStockThreshold) {
+      stockStatus = 'LOW_STOCK';
+    }
+
+    // new array of active batches (quantity > 0 and expiryDate is not null)
+    const activeBatches = product.inventoryBatches.filter(
+      (batch) =>
+        batch.quantity > 0 &&
+        batch.expiryDate !== null,
+    );
+
+    // default expiry status
+    let expiryStatus = 'NO_ALERT';
+
+    // only calculate expiry warning if there is at least one batch with quantity & expiry date
+
+
+    if (activeBatches.length > 0) {
+
+      // initially assume the first batch has the nearest expiry
+      let nearestExpiry = activeBatches[0].expiryDate!;
+
+      // loop over all relevant batches and find the earliest expiry date
+      for (const batch of activeBatches) {
+        if (
+          batch.expiryDate &&
+          batch.expiryDate < nearestExpiry
+        ) {
+          nearestExpiry = batch.expiryDate;
+        }
+      }
+
+      const millisecondsPerDay =
+        1000 * 60 * 60 * 24;
+
+      const daysUntilExpiry = Math.ceil(
+        (nearestExpiry.getTime() - today.getTime()) /
+          millisecondsPerDay,
+      );
+
+      if (daysUntilExpiry <= 30) {
+        expiryStatus = 'URGENT';
+      } else if (daysUntilExpiry <= 90) {
+        expiryStatus = 'HIGH';
+      } else if (daysUntilExpiry <= 180) {
+        expiryStatus = 'WARNING';
+      }
+    }
+
+    // add product summary to result
+    result.push({
+      productId: product.id,
+      name: product.name,
+      brand: product.brand?.name ?? null,
+      size: product.size,
+      totalStock,
+      stockStatus,
+      expiryStatus,
+    });
+  }
+
+  return result;
 }
+
+
+}
+
 
 
 
