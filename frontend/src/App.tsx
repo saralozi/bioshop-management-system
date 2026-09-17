@@ -7,7 +7,8 @@ import Sales from './components/Sales/Sales.js'
 import AddProduct from './components/Products/AddProduct.js'
 import EditProduct from './components/Products/EditProduct.js'
 import InventoryDetails from './components/Inventory/InventoryDetails.js'
-
+import SaleDetails from './components/Sales/SaleDetails.js'
+import NewSale from './components/Sales/NewSale.js'
 import {
   BrowserRouter,
   Navigate,
@@ -60,7 +61,18 @@ function App() {
             path="/sales"
             element={<Sales />}
           />
+
+          <Route
+            path="/sales/:saleId"
+            element={<SaleDetails />}
+          />
+
+          <Route
+            path='/sales/new'
+            element={<NewSale/>}/>
         </Routes>
+
+
       </Layout>
     </BrowserRouter>
   )
